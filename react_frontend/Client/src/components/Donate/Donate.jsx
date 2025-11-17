@@ -15,12 +15,13 @@ function Donate() {
   const [showThankYou, setShowThankYou] = useState(false); // State for thank you message
   const navigate = useNavigate();
   const { theme } = useTheme();
+  const API_BASE_URL = import.meta.env.VITE_BASE_API
 
   const fetchData = async () => {
     if (auth.email) {
       try {
         const response = await fetch(
-          `https://wmc-project-av5d.onrender.com/getalluser/${auth.email}`
+          `${API_BASE_URL}/getalluser/${auth.email}`
         );
 
         const data = await response.json();
@@ -33,7 +34,7 @@ function Donate() {
 
   const fetchTotalDonations = async () => {
     try {
-      const response = await fetch(`https://wmc-project-av5d.onrender.com/total-donations`);
+      const response = await fetch(`${API_BASE_URL}/total-donations`);
       const data = await response.json();
       setTotalDonations(data.total);
     } catch (error) {
@@ -67,7 +68,7 @@ function Donate() {
       console.log(auth.email);
 
       const response = await fetch(
-        `https://wmc-project-av5d.onrender.com/donate/${auth.email}`,
+        `${API_BASE_URL}/donate/${auth.email}`,
         {
           method: "PUT",
           headers: { "Content-Type": "application/json" },

@@ -4,12 +4,13 @@ import axios from "axios";
 const VolunteerRequests = () => {
   const [requests, setRequests] = useState([]);
   const [error, setError] = useState(null);
+  const API_BASE_URL = import.meta.env.VITE_BASE_API
 
   useEffect(() => {
     const fetchRequests = async () => {
       try {
         const response = await axios.get(
-          "https://wmc-project-av5d.onrender.com/api/volunteers"
+          `${API_BASE_URL}/api/volunteers`
         );
         if (Array.isArray(response.data)) {
           setRequests(response.data);
@@ -29,7 +30,7 @@ const VolunteerRequests = () => {
   const handleApprove = async (id) => {
     try {
       await axios.post(
-        `https://wmc-project-av5d.onrender.com//api/volunteers/${id}/approve`,
+        `${API_BASE_URL}/api/volunteers/${id}/approve`,
         {},
         {
           withCredentials: true,
@@ -48,7 +49,7 @@ const VolunteerRequests = () => {
   const handleReject = async (id) => {
     try {
       await axios.post(
-        `https://wmc-project-av5d.onrender.com//api/volunteers/${id}/reject`,
+        `${API_BASE_URL}/api/volunteers/${id}/reject`,
         {},
         {
           withCredentials: true,

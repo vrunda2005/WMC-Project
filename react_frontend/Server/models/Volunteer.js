@@ -5,7 +5,7 @@ const volunteerSchema = new mongoose.Schema({
     name: { type: String, required: true },
     email: { type: String, required: true },
     message: { type: String },
-    status: { type: String, default: 'Pending' },
+    status: { type: String, default: 'Pending', enum: ['Pending', 'Approved', 'Rejected', 'Completed'] },
 });
 
 const Volunteer = mongoose.model('Volunteer', volunteerSchema);

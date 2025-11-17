@@ -8,12 +8,13 @@ Modal.setAppElement("#root");
 function VolunteeringForm({ isOpen, onClose, event }) {
   const [message, setMessage] = useState("");
   const [auth] = useAuth();
+  const API_BASE_URL = import.meta.env.VITE_BASE_API
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
     axios
-      .post("https://wmc-project-av5d.onrender.com/api/volunteers", {
+      .post(`${API_BASE_URL}/api/volunteers`, {
         eventId: event._id,
         name: auth.username,
         email: auth.email,

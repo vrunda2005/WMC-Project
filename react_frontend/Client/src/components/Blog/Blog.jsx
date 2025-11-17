@@ -10,10 +10,11 @@ function Blog() {
   const [loading, setLoading] = useState(true);
   const [selectedEvent, setSelectedEvent] = useState(null);
   const [auth] = useAuth();
+  const API_BASE_URL = import.meta.env.VITE_BASE_API
 
   useEffect(() => {
     axios
-      .get("https://wmc-project-av5d.onrender.com/api/events")
+      .get(`${API_BASE_URL}/api/events`)
       .then((response) => {
         setEvents(response.data || []);
         setLoading(false);
@@ -41,7 +42,7 @@ function Blog() {
     }).then((result) => {
       if (result.isConfirmed) {
         axios
-          .delete(`https://wmc-project-av5d.onrender.com/api/events/${id}`)
+          .delete(`${API_BASE_URL}/api/events/${id}`)
           .then(() => {
             setEvents(events.filter((event) => event._id !== id));
           })

@@ -44,8 +44,9 @@ export default function App() {
     formData.append("file", value.image);
 
     try {
+      const API_BASE_URL = import.meta.env.VITE_BASE_API
       const response = await axios.post(
-        "https://wmc-project-av5d.onrender.com/register",
+        `${API_BASE_URL}/register`,
         formData,
         {
           headers: {

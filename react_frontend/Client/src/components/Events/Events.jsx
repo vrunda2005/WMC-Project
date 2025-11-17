@@ -48,8 +48,9 @@ const Events = () => {
     formData.append("points", points);
 
     try {
+      const API_BASE_URL = import.meta.env.VITE_BASE_API
       const response = await axios.post(
-        "https://wmc-project-av5d.onrender.com/api/events",
+        `${API_BASE_URL}/api/events`,
         formData,
         {
           headers: {

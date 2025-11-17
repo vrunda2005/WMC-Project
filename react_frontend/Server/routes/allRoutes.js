@@ -9,6 +9,8 @@ import { getStories, addStory, removeStory } from '../controllers/storyControlle
 import { getAllUsers, getUserByEmail, updateUserByEmail } from '../controllers/userController.js';
 import { checkToken } from '../middlewares/Auth.js';
 import { getVolunteers, addVolunteer, deleteVolunteer, approveVolunteer,  rejectVolunteer, VolunteerRequests } from '../controllers/volunteerController.js';
+import { forceExpireMembership } from '../controllers/membershipController.js';
+import { setEventClosed, getAttendees, removeAttendee } from '../controllers/eventController.js';
 const router = express.Router();
 
 router.post("/register", register);
@@ -32,6 +34,13 @@ router.delete("/api/events/:id", deleteEvent);
 router.put("/api/events/:id", updateEvent);
 
 router.post("/api/eventRegister", eventRegister);
+
+// Admin endpoints
+router.post('/admin/expire-membership', forceExpireMembership);
+router.post('/admin/event/:id/close', setEventClosed);
+router.get('/admin/event/:id/attendees', getAttendees);
+router.post('/admin/event/:id/attendees/remove', removeAttendee);
+
 
 router.get("/stories", getStories);
 router.post("/stories", addStory);

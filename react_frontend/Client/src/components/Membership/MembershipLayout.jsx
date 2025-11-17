@@ -45,8 +45,9 @@ const MembershipLayout = () => {
 
       // Check if the user confirmed the action
       if (result.isConfirmed) {
+        const API_BASE_URL = import.meta.env.VITE_BASE_API
         const response = await fetch(
-          `https://wmc-project-av5d.onrender.com/updateuser/${auth.email}`,
+          `${API_BASE_URL}/updateuser/${auth.email}`,
           {
             method: "PUT",
             headers: { "Content-Type": "application/json" },

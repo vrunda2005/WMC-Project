@@ -20,7 +20,8 @@ export default function Login() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post("https://wmc-project-av5d.onrender.com/login", {
+       const API_BASE_URL = import.meta.env.VITE_BASE_API;
+      const response = await axios.post(`${API_BASE_URL}/login`, {
         email,
         password,
       });

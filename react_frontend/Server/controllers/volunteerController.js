@@ -12,7 +12,7 @@ const getVolunteers = async (req, res) => {
 };
 
 const addVolunteer = async (req, res) => {
-    const { eventId,  name, email, message, status } = req.body;
+    const { eventId,  name, email, message } = req.body;
 
     if (!eventId || !name || !email) {
         return res.status(400).json({ error: 'All fields are required' });
@@ -24,13 +24,17 @@ const addVolunteer = async (req, res) => {
             return res.status(404).json({ error: 'Event not found' });
         }
 
+        // Do not allow volunteer signups for closed or already completed events
+        if (event.isClosed || event.isCompleted) {
+            return res.status(400).json({ error: 'Volunteer registration closed for this event' });
+        }
+
         const newVolunteer = new Volunteer({
             eventId,
-            // eventName,
             name,
             email,
             message,
-            status: 'pending',
+            status: 'Pending',
         });
 
         const savedVolunteer = await newVolunteer.save();
@@ -44,7 +48,8 @@ const addVolunteer = async (req, res) => {
 const deleteVolunteer = async (req, res) => {
     try {
         const volunteerId = req.params.id;
-        await Volunteer.findByIdAndDelete(volunteerId);
+        const deleted = await Volunteer.findByIdAndDelete(volunteerId);
+        if (!deleted) return res.status(404).json({ error: 'Volunteer not found' });
         res.status(200).json({ message: 'Volunteer deleted successfully' });
     } catch (error) {
         console.error('Error deleting volunteer:', error);
@@ -54,29 +59,34 @@ const deleteVolunteer = async (req, res) => {
 
 const approveVolunteer = async (req, res) => {
     try {
-        await Volunteer.findByIdAndUpdate(req.params.id, { status: 'Approved' });
-        res.status(200).send('Request approved.');
+        const updated = await Volunteer.findByIdAndUpdate(req.params.id, { status: 'Approved' }, { new: true });
+        if (!updated) return res.status(404).json({ error: 'Volunteer not found' });
+        res.status(200).json(updated);
     } catch (error) {
-        res.status(500).send('Error approving request.');
+        console.error('Error approving volunteer:', error);
+        res.status(500).json({ error: 'Error approving request.' });
     }
 };
 
 const rejectVolunteer = async (req, res) => {
     try {
-        await Volunteer.findByIdAndUpdate(req.params.id, { status: 'Rejected' });
-        res.status(200).send('Request rejected.');
+        const updated = await Volunteer.findByIdAndUpdate(req.params.id, { status: 'Rejected' }, { new: true });
+        if (!updated) return res.status(404).json({ error: 'Volunteer not found' });
+        res.status(200).json(updated);
     } catch (error) {
-        res.status(500).send('Error rejecting request.');
+        console.error('Error rejecting volunteer:', error);
+        res.status(500).json({ error: 'Error rejecting request.' });
     }
 };
 
 const VolunteerRequests = async(req,res) => {
     try{
         const response = await Volunteer.find();
-        res.status(200).send(response);
+        res.status(200).json(response);
     }
-    catch{
-        res.status(500).send('Error in getting volunteer request.');
+    catch(err){
+        console.error('Error fetching volunteer requests:', err);
+        res.status(500).json({ error: 'Error in getting volunteer request.' });
     }
 }
 

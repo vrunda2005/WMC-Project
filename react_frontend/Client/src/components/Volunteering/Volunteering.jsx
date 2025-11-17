@@ -10,10 +10,11 @@ function Volunteering() {
   const [selectedEvent, setSelectedEvent] = useState(null);
   const [volunteerStatus, setVolunteerStatus] = useState({});
   const [auth] = useAuth();
+  const API_BASE_URL = import.meta.env.VITE_BASE_API
 
   useEffect(() => {
     axios
-      .get("https://wmc-project-av5d.onrender.com/api/events")
+      .get(`${API_BASE_URL}/api/events`)
       .then((response) => {
         setEvents(response.data || []);
         setLoading(false);
@@ -25,7 +26,7 @@ function Volunteering() {
       });
 
     axios
-      .get("https://wmc-project-av5d.onrender.com/api/volunteers")
+      .get(`${API_BASE_URL}/api/volunteers`)
       .then((response) => {
         const statusMap = {};
         response.data.forEach((volunteer) => {
@@ -48,7 +49,7 @@ function Volunteering() {
 
     // Send interest request to the backend
     axios
-      .post("https://wmc-project-av5d.onrender.com/api/volunteers", {
+      .post(`${API_BASE_URL}/api/volunteers`, {
         eventId: event._id,
         userId: auth.userId,
       })

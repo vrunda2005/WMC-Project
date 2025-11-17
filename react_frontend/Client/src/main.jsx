@@ -5,6 +5,7 @@ import App from './App.jsx'
 import  './index.css'
 import Home from './components/Home/Home'
 import Login from './components/Login/Login'
+import GuestRoute from './components/Auth/GuestRoute'
 import About from './components/About/About'
 import Donate from './components/Donate/Donate'
 import Signup from './components/Signup/SignUp'
@@ -43,7 +44,7 @@ const router=createBrowserRouter([
       },
       {
         path:"Login",
-        element:<Login />
+        element:(<GuestRoute><Login /></GuestRoute>)
       },
       {
         path:"About",

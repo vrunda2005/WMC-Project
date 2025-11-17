@@ -10,6 +10,7 @@ function Home() {
   const [stories, setStories] = useState([]);
   const [loading, setLoading] = useState(true);
   const [currentSlide, setCurrentSlide] = useState(0);
+  const API_BASE_URL = import.meta.env.VITE_BASE_API
 
   ReactGA.send({
     hitType: "pageview",
@@ -23,7 +24,7 @@ function Home() {
     setLoading(true);
 
     axios
-      .get("https://wmc-project-av5d.onrender.com/api/events")
+      .get(`${API_BASE_URL}/api/events`)
       .then((response) => {
         const today = moment().startOf("day");
         const upcomingEvents = response.data.filter((event) =>
@@ -37,7 +38,7 @@ function Home() {
       .catch((error) => console.error(error));
 
     axios
-      .get("https://wmc-project-av5d.onrender.com/stories")
+      .get(`${API_BASE_URL}/stories`)
       .then((response) => {
         const sortedStories = response.data.sort(
           (a, b) => new Date(b.date) - new Date(a.date)
@@ -48,7 +49,7 @@ function Home() {
       .finally(() => setLoading(false));
 
     axios
-      .get("https://wmc-project-av5d.onrender.com/news")
+      .get(`${API_BASE_URL}/news`)
       .then((response) => {
         const sortedNews = response.data.sort(
           (a, b) => new Date(b.date) - new Date(a.date)

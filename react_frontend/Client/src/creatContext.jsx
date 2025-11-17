@@ -31,8 +31,10 @@ const AuthProvider = ({ children }) => {
   const fetchData = async () => {
     if (auth.email) {
       try {
+        const API_BASE_URL = import.meta.env.VITE_BASE_API; // or process.env.REACT_APP_BASE_API
+
         const response = await axios.get(
-          `https://wmc-project-av5d.onrender.com/getalluser/${auth.email}`
+          `${API_BASE_URL}/getalluser/${auth.email}`
         );
         setUserData(response.data);
       } catch (error) {

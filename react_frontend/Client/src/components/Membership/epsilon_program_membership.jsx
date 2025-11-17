@@ -139,11 +139,11 @@ const MembershipTier = ({
   const containerBgColor = theme === "blue" ? "bg-blue-100" : "bg-gray-900";
   const textPrimary = theme === "blue" ? "text-blue-900" : "text-gray-100";
   const textSecondary = theme === "blue" ? "text-blue-700" : "text-gray-300";
-
+  const API_BASE_URL = import.meta.env.VITE_BASE_API
   const [News, setNews] = useState([]);
   useEffect(() => {
     axios
-      .get("https://wmc-project-av5d.onrender.com/news")
+      .get(`${API_BASE_URL}/news`)
       .then((response) => {
         const sortedNews = response.data.sort(
           (a, b) => new Date(b.date) - new Date(a.date)

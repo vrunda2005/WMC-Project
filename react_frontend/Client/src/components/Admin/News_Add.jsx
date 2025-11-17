@@ -77,8 +77,9 @@ const AdminNewsForm = () => {
   const handleUpdate = async (e) => {
     e.preventDefault();
     try {
+      const API_BASE_URL = import.meta.env.VITE_BASE_API
       const response = await fetch(
-        `https://wmc-project-av5d.onrender.com/news/${editingNews}`,
+        `${API_BASE_URL}/news/${editingNews}`,
         {
           method: "PUT",
           headers: { "Content-Type": "application/json" },

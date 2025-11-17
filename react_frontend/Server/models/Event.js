@@ -9,6 +9,12 @@ const eventSchema = new mongoose.Schema({
     venue: { type: String, required: true },
     duration: { type: String, required: true },
     points: { type: Number, required: true },
+    // store attendee user ids
+    attendees: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
+    // optional flag to explicitly close registrations
+    isClosed: { type: Boolean, default: false },
+    // whether the event has completed (date passed and post-processing done)
+    isCompleted: { type: Boolean, default: false },
 });
   
 const Event = mongoose.model('Event', eventSchema);

@@ -5,7 +5,8 @@ const registrationSchema = new mongoose.Schema({
     eventName: { type: String, required: true },
     name: { type: String, required: true },
     email: { type: String, required: true },
-    phone: { type: String }
+    phone: { type: String },
+    userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User' }
 });
   
 const Registration = mongoose.model('Registration', registrationSchema);
